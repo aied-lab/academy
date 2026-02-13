@@ -1,0 +1,1226 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Agent 實戰課程｜課程教室｜AI EdLab 線上學院</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #1a1a2e;
+    --accent: #e94560;
+    --accent-hover: #ff6b81;
+    --secondary: #16213e;
+    --card-bg: #0f3460;
+    --text: #f1f1f1;
+    --text-muted: #a8b2d1;
+    --gold: #f5c518;
+    --green: #00d2d3;
+    --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --shadow: 0 20px 60px rgba(0,0,0,0.3);
+    --radius: 16px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Noto Sans TC', sans-serif;
+    background: var(--primary);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* ===== PASSWORD GATE ===== */
+  .password-gate {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(180deg, #0a0a1a 0%, #1a1a2e 50%, #16213e 100%);
+    padding: 24px;
+  }
+
+  .password-box {
+    background: linear-gradient(160deg, #16213e, #0f3460);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: var(--radius);
+    padding: 48px;
+    max-width: 440px;
+    width: 100%;
+    text-align: center;
+    box-shadow: var(--shadow);
+  }
+
+  .password-box .icon {
+    font-size: 48px;
+    margin-bottom: 20px;
+  }
+
+  .password-box h2 {
+    font-size: 1.4rem;
+    margin-bottom: 8px;
+  }
+
+  .password-box p {
+    color: var(--text-muted);
+    font-size: 14px;
+    margin-bottom: 28px;
+    line-height: 1.6;
+  }
+
+  .password-input-wrap {
+    display: flex;
+    gap: 10px;
+  }
+
+  .password-input-wrap input {
+    flex: 1;
+    padding: 14px 18px;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(0,0,0,0.3);
+    color: var(--text);
+    font-size: 15px;
+    font-family: 'Noto Sans TC', sans-serif;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .password-input-wrap input:focus {
+    border-color: var(--accent);
+  }
+
+  .password-input-wrap button {
+    padding: 14px 24px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-family: 'Noto Sans TC', sans-serif;
+  }
+
+  .password-input-wrap button:hover { background: var(--accent-hover); }
+
+  .password-error {
+    color: var(--accent);
+    font-size: 13px;
+    margin-top: 12px;
+    display: none;
+  }
+
+  /* ===== CLASSROOM (hidden by default) ===== */
+  .classroom {
+    display: none;
+  }
+
+  .classroom.unlocked {
+    display: block;
+  }
+
+  /* ===== NAVBAR ===== */
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    padding: 14px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(10, 10, 26, 0.9);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 700;
+    font-size: 1rem;
+    text-decoration: none;
+    color: var(--text);
+  }
+
+  .nav-logo-icon {
+    width: 32px;
+    height: 32px;
+    background: var(--gradient-1);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+  }
+
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .nav-right a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 13px;
+    transition: color 0.2s;
+  }
+
+  .nav-right a:hover { color: var(--text); }
+
+  /* ===== COURSE HEADER ===== */
+  .course-header {
+    padding: 90px 24px 40px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .course-header .breadcrumb {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+  }
+
+  .course-header .breadcrumb a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .course-header h1 {
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    font-weight: 800;
+    margin-bottom: 16px;
+    line-height: 1.4;
+  }
+
+  .course-header .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    color: var(--text-muted);
+    font-size: 14px;
+  }
+
+  .course-header .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* ===== LAYOUT: SIDEBAR + MAIN ===== */
+  .course-layout {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 40px;
+  }
+
+  /* ===== SIDEBAR ===== */
+  .sidebar {
+    position: sticky;
+    top: 80px;
+    align-self: start;
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+  }
+
+  .sidebar::-webkit-scrollbar { width: 4px; }
+  .sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
+
+  .sidebar-section {
+    margin-bottom: 24px;
+  }
+
+  .sidebar-section h3 {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+    padding: 0 12px;
+  }
+
+  .sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 13px;
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+
+  .sidebar-link:hover {
+    background: rgba(255,255,255,0.05);
+    color: var(--text);
+  }
+
+  .sidebar-link.active {
+    background: rgba(233, 69, 96, 0.12);
+    color: var(--accent);
+  }
+
+  .sidebar-link .ch-num {
+    width: 24px;
+    height: 24px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+
+  .sidebar-link.active .ch-num {
+    background: rgba(233, 69, 96, 0.2);
+  }
+
+  .sidebar-progress {
+    padding: 16px 12px;
+    background: rgba(0, 210, 211, 0.06);
+    border-radius: 10px;
+    margin-bottom: 20px;
+  }
+
+  .sidebar-progress .label {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+
+  .progress-bar {
+    height: 6px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    background: var(--green);
+    border-radius: 3px;
+    width: 0%;
+    transition: width 0.5s;
+  }
+
+  .progress-text {
+    font-size: 12px;
+    color: var(--green);
+    margin-top: 6px;
+    font-family: 'Space Grotesk', sans-serif;
+  }
+
+  /* ===== MAIN CONTENT ===== */
+  .main-content {
+    min-width: 0;
+  }
+
+  /* Chapter section */
+  .chapter-section {
+    margin-bottom: 48px;
+    scroll-margin-top: 90px;
+  }
+
+  .chapter-section .chapter-bar {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 20px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .chapter-bar .num {
+    width: 40px;
+    height: 40px;
+    background: rgba(233, 69, 96, 0.15);
+    color: var(--accent);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  .chapter-bar h2 {
+    font-size: 1.2rem;
+    font-weight: 700;
+  }
+
+  .chapter-bar .duration {
+    margin-left: auto;
+    color: var(--text-muted);
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+
+  .learning-goal {
+    background: rgba(0, 210, 211, 0.06);
+    border-left: 3px solid var(--green);
+    padding: 14px 18px;
+    border-radius: 0 8px 8px 0;
+    margin-bottom: 20px;
+    font-size: 14px;
+    color: var(--text-muted);
+  }
+
+  .learning-goal strong {
+    color: var(--green);
+  }
+
+  /* Video embed */
+  .video-container {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.08);
+    margin-bottom: 20px;
+    aspect-ratio: 16/9;
+    background: #000;
+  }
+
+  .video-container iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+
+  /* Lesson list in chapter */
+  .lesson-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+
+  .lesson-table tr {
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    transition: background 0.2s;
+    cursor: pointer;
+  }
+
+  .lesson-table tr:hover {
+    background: rgba(255,255,255,0.03);
+  }
+
+  .lesson-table td {
+    padding: 12px 8px;
+    font-size: 14px;
+  }
+
+  .lesson-table .time-link {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 13px;
+    color: var(--green);
+    text-decoration: none;
+    background: rgba(0, 210, 211, 0.08);
+    padding: 3px 10px;
+    border-radius: 4px;
+    transition: background 0.2s;
+    white-space: nowrap;
+  }
+
+  .lesson-table .time-link:hover {
+    background: rgba(0, 210, 211, 0.15);
+  }
+
+  .lesson-table .title-cell {
+    color: var(--text);
+  }
+
+  .badge-practice {
+    font-size: 11px;
+    background: rgba(233, 69, 96, 0.15);
+    color: var(--accent);
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-left: 8px;
+  }
+
+  /* Example box */
+  .example-box {
+    background: linear-gradient(160deg, #16213e, #0f3460);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px;
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+
+  .example-header {
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .example-header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .example-icon {
+    font-size: 22px;
+  }
+
+  .example-title {
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .example-subtitle {
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  .example-toggle {
+    color: var(--text-muted);
+    font-size: 16px;
+    transition: transform 0.3s;
+  }
+
+  .example-box.open .example-toggle {
+    transform: rotate(180deg);
+  }
+
+  .example-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease;
+  }
+
+  .example-box.open .example-content {
+    max-height: 2000px;
+  }
+
+  .example-inner {
+    padding: 0 20px 20px;
+  }
+
+  .example-inner .scenario {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+    line-height: 1.6;
+  }
+
+  /* Code blocks */
+  .code-block {
+    background: rgba(0,0,0,0.4);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 12px;
+  }
+
+  .code-block-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 14px;
+    background: rgba(255,255,255,0.03);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .code-block-header span {
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  .copy-btn {
+    font-size: 12px;
+    color: var(--green);
+    background: none;
+    border: 1px solid rgba(0, 210, 211, 0.3);
+    padding: 3px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'Noto Sans TC', sans-serif;
+    transition: all 0.2s;
+  }
+
+  .copy-btn:hover {
+    background: rgba(0, 210, 211, 0.1);
+  }
+
+  .code-block pre {
+    padding: 14px;
+    overflow-x: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--text-muted);
+  }
+
+  .tip-box {
+    background: rgba(245, 197, 24, 0.06);
+    border-left: 3px solid var(--gold);
+    padding: 12px 16px;
+    border-radius: 0 8px 8px 0;
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-top: 12px;
+  }
+
+  .tip-box strong {
+    color: var(--gold);
+  }
+
+  /* Resources section */
+  .resources-section {
+    background: linear-gradient(160deg, #16213e, #0f3460);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px;
+    padding: 32px;
+    margin-bottom: 48px;
+  }
+
+  .resources-section h3 {
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+  }
+
+  .resource-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    text-decoration: none;
+    color: var(--text);
+    font-size: 14px;
+    transition: color 0.2s;
+  }
+
+  .resource-link:last-child { border-bottom: none; }
+  .resource-link:hover { color: var(--green); }
+
+  .resource-icon {
+    font-size: 20px;
+  }
+
+  /* Notice bar */
+  .notice-bar {
+    background: rgba(233, 69, 96, 0.1);
+    border: 1px solid rgba(233, 69, 96, 0.2);
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin-bottom: 32px;
+    font-size: 13px;
+    color: var(--accent);
+    line-height: 1.6;
+  }
+
+  /* ===== FOOTER ===== */
+  .footer {
+    text-align: center;
+    padding: 40px 24px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    color: var(--text-muted);
+    font-size: 13px;
+  }
+
+  .footer a { color: var(--accent); text-decoration: none; }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 768px) {
+    .navbar { padding: 12px 16px; }
+    .nav-right { display: none; }
+    .course-header { padding: 80px 16px 24px; }
+    .course-layout {
+      grid-template-columns: 1fr;
+      padding: 0 16px 48px;
+    }
+    .sidebar {
+      position: relative;
+      top: 0;
+      max-height: none;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      padding-bottom: 20px;
+      margin-bottom: 20px;
+    }
+  }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== PASSWORD GATE ===== -->
+<div class="password-gate" id="passwordGate">
+  <div class="password-box">
+    <div class="icon">🔐</div>
+    <h2>課程教室</h2>
+    <p>此為付費學員專屬頁面<br>請輸入您收到的課程密碼</p>
+    <div class="password-input-wrap">
+      <input type="password" id="passwordInput" placeholder="請輸入密碼" onkeydown="if(event.key==='Enter')checkPassword()">
+      <button onclick="checkPassword()">進入</button>
+    </div>
+    <div class="password-error" id="passwordError">密碼錯誤，請重新輸入</div>
+  </div>
+</div>
+
+<!-- ===== CLASSROOM ===== -->
+<div class="classroom" id="classroom">
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <a href="index.html" class="nav-logo">
+    <div class="nav-logo-icon">🎓</div>
+    AI EdLab 線上學院
+  </a>
+  <div class="nav-right">
+    <a href="index.html">← 返回學院</a>
+    <a href="https://line.me/ti/g/mdM8Eb3wG6" target="_blank">💬 LINE 學員群</a>
+  </div>
+</nav>
+
+<!-- COURSE HEADER -->
+<div class="course-header">
+  <div class="breadcrumb"><a href="index.html">AI EdLab 線上學院</a> / 課程教室</div>
+  <h1>🚀 AI Agent 實戰：用 Gemini + NotebookLM 打造你的數位大腦</h1>
+  <div class="meta">
+    <div class="meta-item">👨‍🏫 Dr. John Liao</div>
+    <div class="meta-item">⏱️ 3 小時 30 分鐘</div>
+    <div class="meta-item">📖 9 大章節</div>
+    <div class="meta-item">💻 8 個實戰範例</div>
+    <div class="meta-item">📅 2026.01.31</div>
+  </div>
+</div>
+
+<!-- LAYOUT -->
+<div class="course-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-progress">
+      <div class="label">學習進度</div>
+      <div class="progress-bar"><div class="progress-bar-fill" id="progressFill"></div></div>
+      <div class="progress-text" id="progressText">0 / 9 章節</div>
+    </div>
+
+    <div class="sidebar-section">
+      <h3>課程章節</h3>
+      <a class="sidebar-link active" onclick="scrollToChapter('ch1')"><span class="ch-num">01</span> AI Agent 基礎概念</a>
+      <a class="sidebar-link" onclick="scrollToChapter('ch2')"><span class="ch-num">02</span> 核心能力與應用</a>
+      <a class="sidebar-link" onclick="scrollToChapter('ch3')"><span class="ch-num">03</span> 平台與工具介紹</a>
+      <a class="sidebar-link" onclick="scrollToChapter('ch4')"><span class="ch-num">04</span> Prompt & Agent 設計</a>
+      <a class="sidebar-link" onclick="scrollToChapter('ch5')"><span class="ch-num">05</span> 實作：建立 AI Agent</a>
+      <a class="sidebar-link" onclick="scrollToChapter('ch6')"><span class="ch-num">06</span> 工作流程自動化</a>
+      <a class="sidebar-link" onclick="scrollToChapter('ch7')"><span class="ch-num">07</span> API 整合與串接</a>
+      <a class="sidebar-link" onclick="scrollToChapter('ch8')"><span class="ch-num">08</span> 成本管理與實踐</a>
+      <a class="sidebar-link" onclick="scrollToChapter('ch9')"><span class="ch-num">09</span> Q&A 與總結</a>
+    </div>
+
+    <div class="sidebar-section">
+      <h3>課程資源</h3>
+      <a class="sidebar-link" onclick="scrollToChapter('resources')"><span class="ch-num">📦</span> 下載與連結</a>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+
+    <!-- NOTICE -->
+    <div class="notice-bar">
+      ⚠️ 本課程錄影內容觀看期限至 <strong>2026/03/31</strong>，敬請把握時間複習。<br>
+      ⚠️ 課程內容僅限付費學員自行複習使用，切勿分享，敬請尊重智財權。
+    </div>
+
+    <!-- CHAPTER 1 -->
+    <div class="chapter-section" id="ch1">
+      <div class="chapter-bar">
+        <div class="num">01</div>
+        <h2>課程介紹與 AI Agent 基礎概念</h2>
+        <span class="duration">20 分鐘</span>
+      </div>
+      <div class="learning-goal"><strong>🎯 學習目標：</strong>理解 AI Agent 的定義、與傳統 AI 的差異，以及運作機制</div>
+      <div class="video-container">
+        <iframe src="https://www.youtube.com/embed/4L1Gqbd9otk?start=0" allowfullscreen></iframe>
+      </div>
+      <table class="lesson-table">
+        <tr><td><a class="time-link" href="https://www.youtube.com/watch?v=4L1Gqbd9otk&t=0s" target="_blank">00:00:00</a></td><td class="title-cell">課程目標與學習方式</td></tr>
+        <tr><td><a class="time-link" href="https://www.youtube.com/watch?v=4L1Gqbd9otk&t=111s" target="_blank">00:01:51</a></td><td class="title-cell">AI Agent 的定義與重要性</td></tr>
+        <tr><td><a class="time-link" href="https://www.youtube.com/watch?v=4L1Gqbd9otk&t=540s" target="_blank">00:09:00</a></td><td class="title-cell">Agent 與傳統 AI 的差異</td></tr>
+        <tr><td><a class="time-link" href="https://www.youtube.com/watch?v=4L1Gqbd9otk&t=825s" target="_blank">00:13:45</a></td><td class="title-cell">Agent 的運作機制</td></tr>
+      </table>
+    </div>
+
+    <!-- CHAPTER 2 -->
+    <div class="chapter-section" id="ch2">
+      <div class="chapter-bar">
+        <div class="num">02</div>
+        <h2>AI Agent 的核心能力與應用場景</h2>
+        <span class="duration">40 分鐘</span>
+      </div>
+      <div class="learning-goal"><strong>🎯 學習目標：</strong>掌握 Agent 的感知、推理、協作能力，以及真實案例分析</div>
+      <table class="lesson-table">
+        <tr><td><a class="time-link" href="https://www.youtube.com/watch?v=4L1Gqbd9otk&t=1200s" target="_blank">00:20:00</a></td><td class="title-cell">Agent 的感知與推理能力</td></tr>
+        <tr><td><a class="time-link" href="https://www.youtube.com/watch?v=4L1Gqbd9otk&t=1800s" target="_blank">00:30:00</a></td><td class="title-cell">Agent 在工作場景的應用</td></tr>
+        <tr><td><a class="time-link" href="https://www.youtube.com/watch?v=4L1Gqbd9otk&t=2400s" target="_blank">00:40:00</a></td><td class="title-cell">Multi-Agent 系統與協作</td></tr>
+        <tr><td><a class="time-link" href="https://www.youtube.com/watch?v=4L1Gqbd9otk&t=3000s" target="_blank">00:50:00</a></td><td class="title-cell">實際案例分析</td></tr>
+      </table>
+
+      <!-- Example 1 -->
+      <div class="example-box">
+        <div class="example-header" onclick="this.parentElement.classList.toggle('open')">
+          <div class="example-header-left">
+            <span class="example-icon">📰</span>
+            <div>
+              <div class="example-title">範例 1：定時排程 — 全球財經會報</div>
+              <div class="example-subtitle">影片 25:30 開始</div>
+            </div>
+          </div>
+          <span class="example-toggle">▼</span>
+        </div>
+        <div class="example-content">
+          <div class="example-inner">
+            <div class="scenario">💡 適合情境：投資人、財經工作者、關注市場動態者</div>
+            <div class="code-block">
+              <div class="code-block-header"><span>📝 完整 Prompt</span><button class="copy-btn" onclick="copyCode(this)">複製</button></div>
+              <pre>每天早上 8:04 上網搜尋全球財經新聞,找出美股投資機會、風險以及投資建議,並請標註出相關的股票代號。</pre>
+            </div>
+            <div class="tip-box"><strong>💎 進階技巧：</strong>可改成「台股」或其他市場、調整時間為你方便的時段、加入特定關注標的</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Example 2 -->
+      <div class="example-box">
+        <div class="example-header" onclick="this.parentElement.classList.toggle('open')">
+          <div class="example-header-left">
+            <span class="example-icon">📊</span>
+            <div>
+              <div class="example-title">範例 2：視覺化分析 — Canvas 儀表板</div>
+              <div class="example-subtitle">影片 35:00 開始</div>
+            </div>
+          </div>
+          <span class="example-toggle">▼</span>
+        </div>
+        <div class="example-content">
+          <div class="example-inner">
+            <div class="scenario">💡 適合情境：需要製作報告、簡報，或快速掌握數據者</div>
+            <div class="code-block">
+              <div class="code-block-header"><span>📝 完整 Prompt</span><button class="copy-btn" onclick="copyCode(this)">複製</button></div>
+              <pre>上網搜尋全球財經新聞,找出投資機會與建議。請將上述資訊以「儀表板 (Dashboard)」形式呈現於 Canvas 畫布中,要求包含股票代號、實際數據,且版面要特別明顯、容易辨別,最好能附上統計圖表。</pre>
+            </div>
+            <div class="tip-box"><strong>💎 進階技巧：</strong>指定圖表類型：「請用長條圖呈現各股票漲跌幅」、自訂配色：「請使用專業商務配色」、可套用到其他領域：健康數據、專案進度等</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHAPTER 3 -->
+    <div class="chapter-section" id="ch3">
+      <div class="chapter-bar">
+        <div class="num">03</div>
+        <h2>主流 AI Agent 平台與工具介紹</h2>
+        <span class="duration">40 分鐘</span>
+      </div>
+      <div class="learning-goal"><strong>🎯 學習目標：</strong>認識 Gemini、NotebookLM、Claude 等工具，學會選擇最適合的平台</div>
+      <table class="lesson-table">
+        <tr><td><a class="time-link" href="https://www.youtube.com/watch?v=4L1Gqbd9otk&t=3600s" target="_blank">01:00:00</a></td><td class="title-cell">Gemini AI Studio 介紹</td></tr>
+        <tr><td><a class="time-link" href="https://www.youtube.com/watch?v=4L1Gqbd9otk&t=4200s" target="_blank">01:10:00</a></td><td class="title-cell">NotebookLM 功能與應用</td></tr>
+        <tr><td><a class="time-link" href="https://www.youtube.com/watch?v=4L1Gqbd9otk&t=4800s" target="_blank">01:20:00</a></td><td class="title-cell">Claude 與其他平台比較</td></tr>
+        <tr><td><a class="time-link" href="https://www.youtube.com/watch?v=4L1Gqbd9otk&t=5400s" target="_blank">01:30:00</a></td><td class="title-cell">工具選擇策略</td></tr>
+      </table>
+
+      <!-- Example 3 -->
+      <div class="example-box">
+        <div class="example-header" onclick="this.parentElement.classList.toggle('open')">
+          <div class="example-header-left">
+            <span class="example-icon">🧠</span>
+            <div>
+              <div class="example-title">範例 3：知識串聯 — NotebookLM 數位大腦</div>
+              <div class="example-subtitle">影片 52:00 開始</div>
+            </div>
+          </div>
+          <span class="example-toggle">▼</span>
+        </div>
+        <div class="example-content">
+          <div class="example-inner">
+            <div class="scenario">💡 適合情境：知識工作者、寫作者、需要產出原創內容者</div>
+            <div class="code-block">
+              <div class="code-block-header"><span>📝 完整 Prompt</span><button class="copy-btn" onclick="copyCode(this)">複製</button></div>
+              <pre>@NotebookLM（選擇數位大腦筆記本）,請依據筆記本中的知識內容,撰寫一篇兩千字的專欄文章。主題為：「AI Agent 對於組織的變革與影響」。要求：內容不要與我過去的作品重複,需加入最新的全球研究報告、公司案例與數據分析。</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Example 4 -->
+      <div class="example-box">
+        <div class="example-header" onclick="this.parentElement.classList.toggle('open')">
+          <div class="example-header-left">
+            <span class="example-icon">📝</span>
+            <div>
+              <div class="example-title">範例 4：自動化寫作 — Google Docs</div>
+              <div class="example-subtitle">影片 59:00 開始</div>
+            </div>
+          </div>
+          <span class="example-toggle">▼</span>
+        </div>
+        <div class="example-content">
+          <div class="example-inner">
+            <div class="code-block">
+              <div class="code-block-header"><span>📝 完整 Prompt</span><button class="copy-btn" onclick="copyCode(this)">複製</button></div>
+              <pre>依據 NotebookLM 撰寫一篇關於「Agent 學習創新」的文章,完成後請使用 @Google Docs 功能,直接將內容寫入一個名為「AI 學習建議書」的新文件中。</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Example 5 -->
+      <div class="example-box">
+        <div class="example-header" onclick="this.parentElement.classList.toggle('open')">
+          <div class="example-header-left">
+            <span class="example-icon">📅</span>
+            <div>
+              <div class="example-title">範例 5：生活管理 — Google Calendar</div>
+              <div class="example-subtitle">影片 1:08:30 開始</div>
+            </div>
+          </div>
+          <span class="example-toggle">▼</span>
+        </div>
+        <div class="example-content">
+          <div class="example-inner">
+            <div class="code-block">
+              <div class="code-block-header"><span>📝 完整 Prompt</span><button class="copy-btn" onclick="copyCode(this)">複製</button></div>
+              <pre>@Google Calendar,請排定 2 月份每天早上 10:30 的行程,內容是：「上網搜尋全球科技新聞,並歸納出一句英語會話供我練習」。請確保每天的練習內容都不重複。</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHAPTER 4 -->
+    <div class="chapter-section" id="ch4">
+      <div class="chapter-bar">
+        <div class="num">04</div>
+        <h2>Prompt Engineering 與 Agent 設計</h2>
+        <span class="duration">40 分鐘</span>
+      </div>
+      <div class="learning-goal"><strong>🎯 學習目標：</strong>掌握 Prompt 設計原則、Agent 目標設定、記憶系統與優化技巧</div>
+      <table class="lesson-table">
+        <tr><td><a class="time-link" href="https://www.youtube.com/watch?v=4L1Gqbd9otk&t=6000s" target="_blank">01:40:00</a></td><td class="title-cell">Prompt 設計原則</td></tr>
+        <tr><td><a class="time-link" href="https://www.youtube.com/watch?v=4L1Gqbd9otk&t=6600s" target="_blank">01:50:00</a></td><td class="title-cell">Agent 目標設定與任務分解</td></tr>
+        <tr><td><a class="time-link" href="https://www.youtube.com/watch?v=4L1Gqbd9otk&t=7200s" target="_blank">02:00:00</a></td><td class="title-cell">記憶系統與上下文管理</td></tr>
+        <tr><td><a class="time-link" href="https://www.youtube.com/watch?v=4L1Gqbd9otk&t=7800s" target="_blank">02:10:00</a></td><td class="title-cell">錯誤處理與優化技巧</td></tr>
+      </table>
+
+      <!-- Example 6 -->
+      <div class="example-box">
+        <div class="example-header" onclick="this.parentElement.classList.toggle('open')">
+          <div class="example-header-left">
+            <span class="example-icon">💎</span>
+            <div>
+              <div class="example-title">範例 6：專業分身 — 自定義 Gems</div>
+              <div class="example-subtitle">影片 1:32:00 開始</div>
+            </div>
+          </div>
+          <span class="example-toggle">▼</span>
+        </div>
+        <div class="example-content">
+          <div class="example-inner">
+            <div class="code-block">
+              <div class="code-block-header"><span>📝 Gem 指令設定</span><button class="copy-btn" onclick="copyCode(this)">複製</button></div>
+              <pre>你是廖老師的 AI 軍師,非常了解我的數位大腦知識內容。當用戶上傳檔案或連結時,你必須優先依據 @NotebookLM 筆記本內容提供具體的研究建議,每項建議需包含評分,最終決策由我決定。</pre>
+            </div>
+            <div class="tip-box"><strong>💎 進階技巧：</strong>可建立多個 Gems：財務顧問、健康教練等。設定專業領域與互動風格。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHAPTER 5 -->
+    <div class="chapter-section" id="ch5">
+      <div class="chapter-bar">
+        <div class="num">05</div>
+        <h2>實作演練 — 建立第一個 AI Agent</h2>
+        <span class="duration">30 分鐘</span>
+      </div>
+      <div class="learning-goal"><strong>🎯 學習目標：</strong>動手建立你的第一個 AI Agent，從環境設定到測試部署</div>
+      <table class="lesson-table">
+        <tr><td><a class="time-link" href="https://www.youtube.com/watch?v=4L1Gqbd9otk&t=8400s" target="_blank">02:20:00</a></td><td class="title-cell">環境設定與準備工作</td></tr>
+        <tr><td><a class="time-link" href="https://www.youtube.com/watch?v=4L1Gqbd9otk&t=9000s" target="_blank">02:30:00</a></td><td class="title-cell">使用 Gemini AI Studio 建立 Agent</td></tr>
+        <tr><td><a class="time-link" href="https://www.youtube.com/watch?v=4L1Gqbd9otk&t=9600s" target="_blank">02:40:00</a></td><td class="title-cell">Agent 測試與調整</td></tr>
+        <tr><td><a class="time-link" href="https://www.youtube.com/watch?v=4L1Gqbd9otk&t=10200s" target="_blank">02:50:00</a></td><td class="title-cell">部署與分享</td></tr>
+      </table>
+    </div>
+
+    <!-- CHAPTER 6 -->
+    <div class="chapter-section" id="ch6">
+      <div class="chapter-bar">
+        <div class="num">06</div>
+        <h2>進階應用 — 工作流程自動化</h2>
+        <span class="duration">17 分鐘</span>
+      </div>
+      <div class="learning-goal"><strong>🎯 學習目標：</strong>將 AI Agent 應用於文件處理、數據分析與客服自動化</div>
+      <table class="lesson-table">
+        <tr><td><a class="time-link" href="https://www.youtube.com/watch?v=4L1Gqbd9otk&t=10800s" target="_blank">03:00:00</a></td><td class="title-cell">文件處理自動化</td></tr>
+        <tr><td><a class="time-link" href="https://www.youtube.com/watch?v=4L1Gqbd9otk&t=11400s" target="_blank">03:10:00</a></td><td class="title-cell">數據分析與報告生成</td></tr>
+        <tr><td><a class="time-link" href="https://www.youtube.com/watch?v=4L1Gqbd9otk&t=11700s" target="_blank">03:15:00</a></td><td class="title-cell">客服與溝通自動化</td></tr>
+      </table>
+
+      <!-- Example 7 -->
+      <div class="example-box">
+        <div class="example-header" onclick="this.parentElement.classList.toggle('open')">
+          <div class="example-header-left">
+            <span class="example-icon">🧬</span>
+            <div>
+              <div class="example-title">範例 7：MBTI 自動回信系統（進階）</div>
+              <div class="example-subtitle">影片 1:50:00 開始 ｜ ⏱️ 預估 15-20 分鐘完成部署</div>
+            </div>
+          </div>
+          <span class="example-toggle">▼</span>
+        </div>
+        <div class="example-content">
+          <div class="example-inner">
+            <div class="scenario">💡 適合情境：HR、教育工作者、提供諮詢服務者<br>📋 <a href="https://docs.google.com/forms/d/17BwuHuzmK4MF2bmhn1dNPPIkloCaw3MrLyzSQ5ZOnlo/edit" target="_blank" style="color:var(--green);">Google 表單範本</a>（點選「建立副本」即可使用）</div>
+            <div class="code-block">
+              <div class="code-block-header"><span>📝 核心 Prompt</span><button class="copy-btn" onclick="copyCode(this)">複製</button></div>
+              <pre>你現在是一位 MBTI 大師。請根據用戶提交的表單選項進行深度性格分析,以親切、專業且有溫暖感的口吻撰寫回信。信件需包含：性格類型預測、優勢分析以及未來的發展建議。</pre>
+            </div>
+            <div class="code-block">
+              <div class="code-block-header"><span>📦 完整程式碼 — Google Apps Script</span><button class="copy-btn" onclick="copyCode(this)">複製</button></div>
+              <pre>function onFormSubmit(e) {
+  var itemResponses = e.response.getItemResponses();
+  var email = '';
+  var answers = [];
+  
+  for (var i = 0; i &lt; itemResponses.length; i++) {
+    var title = itemResponses[i].getItem().getTitle();
+    var response = itemResponses[i].getResponse();
+    if (title === 'Email') {
+      email = response;
+    } else {
+      answers.push(title + ": " + response);
+    }
+  }
+  
+  var prompt = "這是 MBTI 性格測試結果: " + answers.join("; ") + ". 依據上述選項結果以 MBTI 理論進行分析,並以親切且有理且專業的口吻詳細說明分析結果";
+  
+  try {
+    var openAIResponse = callOpenAI(prompt);
+    MailApp.sendEmail(email, "您的 MBTI 性格測試結果", openAIResponse);
+  } catch (error) {
+    Logger.log('Error calling OpenAI: ' + error.toString());
+  }
+}
+
+function callOpenAI(prompt) {
+  var scriptProperties = PropertiesService.getScriptProperties();
+  var apiKey = scriptProperties.getProperty('OPENAI_API_KEY');
+  var apiURL = 'https://api.openai.com/v1/chat/completions';
+  var data = {model: "gpt-4o", messages: [{"role": "user", "content": prompt}]};
+  var options = {'method': 'post', 'contentType': 'application/json', 'headers': {'Authorization': 'Bearer ' + apiKey}, 'payload': JSON.stringify(data)};
+  var response = UrlFetchApp.fetch(apiURL, options);
+  var responseJson = JSON.parse(response.getContentText());
+  if (responseJson.error) throw new Error(responseJson.error.message);
+  return responseJson.choices[0].message.content.trim();
+}</pre>
+            </div>
+            <div class="tip-box"><strong>🔧 設定步驟：</strong>1. 複製 Google 表單範本 → 2. 開啟指令碼編輯器貼上程式碼 → 3. 設定 OpenAI API Key → 4. 設定觸發條件 → 5. 授權並測試<br><br><strong>💰 費用參考：</strong>GPT-4o 約 $0.01/次 ｜ GPT-3.5 約 $0.001/次 ｜ Gemini Pro 約 $0.0002/次（最省）</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHAPTER 7 -->
+    <div class="chapter-section" id="ch7">
+      <div class="chapter-bar">
+        <div class="num">07</div>
+        <h2>API 整合與系統串接</h2>
+        <span class="duration">7 分鐘</span>
+      </div>
+      <div class="learning-goal"><strong>🎯 學習目標：</strong>學會基礎 API 概念、Google Apps Script 應用與第三方服務整合</div>
+      <table class="lesson-table">
+        <tr><td><a class="time-link" href="https://www.youtube.com/watch?v=4L1Gqbd9otk&t=11800s" target="_blank">03:16:40</a></td><td class="title-cell">API 基礎概念</td></tr>
+        <tr><td><a class="time-link" href="https://www.youtube.com/watch?v=4L1Gqbd9otk&t=11900s" target="_blank">03:18:20</a></td><td class="title-cell">Google Apps Script 應用</td></tr>
+        <tr><td><a class="time-link" href="https://www.youtube.com/watch?v=4L1Gqbd9otk&t=12000s" target="_blank">03:20:00</a></td><td class="title-cell">第三方服務整合</td></tr>
+      </table>
+
+      <!-- Example 8 -->
+      <div class="example-box">
+        <div class="example-header" onclick="this.parentElement.classList.toggle('open')">
+          <div class="example-header-left">
+            <span class="example-icon">🚀</span>
+            <div>
+              <div class="example-title">範例 8：Vibe Coding — AI Studio 開發希臘文學習 App</div>
+              <div class="example-subtitle">影片 3:07:30 開始</div>
+            </div>
+          </div>
+          <span class="example-toggle">▼</span>
+        </div>
+        <div class="example-content">
+          <div class="example-inner">
+            <div class="scenario">💡 適合情境：想快速開發 Web App、不會寫程式但有想法的人<br>🔗 工具平台：<a href="https://aistudio.google.com" target="_blank" style="color:var(--green);">Google AI Studio</a><br>📂 <a href="https://aistudio.google.com/apps/drive/1Xi10ZxiDk2kmcXexOXYJ4fIiKR3eBCRM?showPreview=true&showAssistant=true" target="_blank" style="color:var(--green);">App 專案原始碼</a>（可直接查看與複製）<br>🌐 <a href="https://opa-greek-tutor-863907356295.us-west1.run.app/" target="_blank" style="color:var(--green);">線上體驗：希臘文學習 App</a></div>
+            <div class="code-block">
+              <div class="code-block-header"><span>📝 第一步：初始需求描述</span><button class="copy-btn" onclick="copyCode(this)">複製</button></div>
+              <pre>我想做一個簡單的希臘文會話教學 APP，請使用 HTML/JavaScript 幫我寫出來。內容要包含基本的日常問候與希臘文對話，並且要有一個按鈕可以點擊發音。</pre>
+            </div>
+            <div class="code-block">
+              <div class="code-block-header"><span>📝 第二步：加入中文翻譯與優化</span><button class="copy-btn" onclick="copyCode(this)">複製</button></div>
+              <pre>請幫我加入中文翻譯與中文介面，讓學習者能更容易理解，並且把發音的功能優化，最後要提供正確解答與中英對照。</pre>
+            </div>
+            <div class="code-block">
+              <div class="code-block-header"><span>📝 第三步：修復功能與增加互動</span><button class="copy-btn" onclick="copyCode(this)">複製</button></div>
+              <pre>現在按鈕點了沒反應，請修復語音發音的功能（使用 Web Speech API），並讓版面看起來更有質感一點。</pre>
+            </div>
+            <div class="tip-box"><strong>🎯 核心概念 — Agent 的最高境界：</strong>從「問 AI 問題」進化到「叫 AI 做出一個工具」。即便不懂 JavaScript 或 HTML，只要能清楚表達邏輯，就能在 5 分鐘內發佈一個屬於自己的 App。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHAPTER 8 -->
+    <div class="chapter-section" id="ch8">
+      <div class="chapter-bar">
+        <div class="num">08</div>
+        <h2>成本管理與最佳實踐</h2>
+        <span class="duration">6 分鐘</span>
+      </div>
+      <div class="learning-goal"><strong>🎯 學習目標：</strong>理解 Token 計費機制、成本優化策略與安全性考量</div>
+      <table class="lesson-table">
+        <tr><td><a class="time-link" href="https://www.youtube.com/watch?v=4L1Gqbd9otk&t=12200s" target="_blank">03:23:20</a></td><td class="title-cell">Token 計費機制說明</td></tr>
+        <tr><td><a class="time-link" href="https://www.youtube.com/watch?v=4L1Gqbd9otk&t=12400s" target="_blank">03:26:40</a></td><td class="title-cell">成本優化策略</td></tr>
+        <tr><td><a class="time-link" href="https://www.youtube.com/watch?v=4L1Gqbd9otk&t=12500s" target="_blank">03:28:20</a></td><td class="title-cell">安全性與隱私考量</td></tr>
+      </table>
+    </div>
+
+    <!-- CHAPTER 9 -->
+    <div class="chapter-section" id="ch9">
+      <div class="chapter-bar">
+        <div class="num">09</div>
+        <h2>Q&A 與課程總結</h2>
+        <span class="duration">5 分鐘</span>
+      </div>
+      <table class="lesson-table">
+        <tr><td><a class="time-link" href="https://www.youtube.com/watch?v=4L1Gqbd9otk&t=12550s" target="_blank">03:29:10</a></td><td class="title-cell">學員問題解答</td></tr>
+        <tr><td><a class="time-link" href="https://www.youtube.com/watch?v=4L1Gqbd9otk&t=12610s" target="_blank">03:30:10</a></td><td class="title-cell">學習資源與後續支援</td></tr>
+        <tr><td><a class="time-link" href="https://www.youtube.com/watch?v=4L1Gqbd9otk&t=12640s" target="_blank">03:30:40</a></td><td class="title-cell">課程回顧與展望</td></tr>
+      </table>
+    </div>
+
+    <!-- RESOURCES -->
+    <div class="chapter-section" id="resources">
+      <div class="resources-section">
+        <h3>📦 課程資源與延伸學習</h3>
+        <a class="resource-link" href="https://docs.google.com/forms/d/17BwuHuzmK4MF2bmhn1dNPPIkloCaw3MrLyzSQ5ZOnlo/edit" target="_blank"><span class="resource-icon">📋</span> MBTI 自動回信系統 — Google 表單範本</a>
+        <a class="resource-link" href="https://aistudio.google.com/apps/drive/1Xi10ZxiDk2kmcXexOXYJ4fIiKR3eBCRM?showPreview=true&showAssistant=true" target="_blank"><span class="resource-icon">📂</span> Vibe Coding — 希臘文 App 專案原始碼</a>
+        <a class="resource-link" href="https://opa-greek-tutor-863907356295.us-west1.run.app/" target="_blank"><span class="resource-icon">🌐</span> 線上體驗 — 希臘文學習 App</a>
+        <a class="resource-link" href="https://ai.google.dev/" target="_blank"><span class="resource-icon">🔗</span> Gemini AI Studio 官方文檔</a>
+        <a class="resource-link" href="https://notebooklm.google/" target="_blank"><span class="resource-icon">🔗</span> NotebookLM 使用指南</a>
+        <a class="resource-link" href="https://www.promptingguide.ai/" target="_blank"><span class="resource-icon">🔗</span> Prompt Engineering 最佳實踐</a>
+        <a class="resource-link" href="https://line.me/ti/g/mdM8Eb3wG6" target="_blank"><span class="resource-icon">💬</span> LINE 學員群組 — 隨時提問</a>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <p>
+    🏛️ AI 人才科技實驗室 ｜ AI TalenTech Labs<br>
+    <a href="index.html">← 返回學院首頁</a> ·
+    <a href="https://aiedlab.substack.com/" target="_blank">Substack</a> ·
+    <a href="https://www.facebook.com/groups/aied.lab" target="_blank">Facebook</a> ·
+    <a href="https://www.youtube.com/@aied-lab" target="_blank">YouTube</a>
+  </p>
+</footer>
+
+</div><!-- end .classroom -->
+
+<script>
+// ===== PASSWORD =====
+const COURSE_PASSWORD = 'aiedlab2026';
+
+function checkPassword() {
+  const input = document.getElementById('passwordInput').value;
+  if (input === COURSE_PASSWORD) {
+    document.getElementById('passwordGate').style.display = 'none';
+    document.getElementById('classroom').classList.add('unlocked');
+    sessionStorage.setItem('classroom_unlocked', 'true');
+  } else {
+    document.getElementById('passwordError').style.display = 'block';
+    document.getElementById('passwordInput').value = '';
+    document.getElementById('passwordInput').focus();
+  }
+}
+
+// Check if already unlocked this session
+if (sessionStorage.getItem('classroom_unlocked') === 'true') {
+  document.getElementById('passwordGate').style.display = 'none';
+  document.getElementById('classroom').classList.add('unlocked');
+}
+
+// ===== SIDEBAR NAVIGATION =====
+function scrollToChapter(id) {
+  const el = document.getElementById(id);
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth' });
+    // Update active state
+    document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
+    event.currentTarget.classList.add('active');
+  }
+}
+
+// ===== COPY CODE =====
+function copyCode(btn) {
+  const pre = btn.closest('.code-block').querySelector('pre');
+  navigator.clipboard.writeText(pre.textContent).then(() => {
+    btn.textContent = '已複製 ✓';
+    btn.style.color = 'var(--gold)';
+    setTimeout(() => {
+      btn.textContent = '複製';
+      btn.style.color = '';
+    }, 2000);
+  });
+}
+
+// ===== SCROLL SPY for sidebar =====
+const chapters = document.querySelectorAll('.chapter-section');
+const sidebarLinks = document.querySelectorAll('.sidebar-link');
+
+const scrollObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.id;
+      sidebarLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('onclick')?.includes(id)) {
+          link.classList.add('active');
+        }
+      });
+    }
+  });
+}, { threshold: 0.2, rootMargin: '-80px 0px -60% 0px' });
+
+chapters.forEach(ch => scrollObserver.observe(ch));
+</script>
+
+</body>
+</html>
