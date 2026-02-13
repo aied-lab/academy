@@ -212,6 +212,51 @@
     gap: 6px;
   }
 
+  /* ===== MAIN VIDEO PLAYER ===== */
+  .main-player-wrap {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 24px 24px;
+  }
+
+  .main-player {
+    background: linear-gradient(160deg, #16213e, #0f3460);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+  }
+
+  .main-player .video-container {
+    border-radius: 0;
+    border: none;
+    margin-bottom: 0;
+  }
+
+  .player-info {
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .player-now {
+    font-size: 14px;
+    color: var(--green);
+    font-weight: 500;
+  }
+
+  /* highlight active lesson row */
+  .lesson-table tr.active-lesson {
+    background: rgba(0, 210, 211, 0.08);
+  }
+
+  .lesson-table tr.active-lesson .title-cell {
+    color: var(--green);
+    font-weight: 600;
+  }
+
   /* ===== LAYOUT: SIDEBAR + MAIN ===== */
   .course-layout {
     max-width: 1000px;
@@ -710,6 +755,18 @@
   </div>
 </div>
 
+<!-- MAIN VIDEO PLAYER -->
+<div class="main-player-wrap" id="mainPlayerWrap">
+  <div class="main-player" id="mainPlayer">
+    <div class="video-container">
+      <iframe id="videoPlayer" src="https://www.youtube.com/embed/4L1Gqbd9otk?start=0&autoplay=0&enablejsapi=1" allowfullscreen allow="autoplay"></iframe>
+    </div>
+    <div class="player-info">
+      <span class="player-now" id="playerNow">▶ 第 01 章 — 課程目標與學習方式</span>
+    </div>
+  </div>
+</div>
+
 <!-- LAYOUT -->
 <div class="course-layout">
 
@@ -757,14 +814,11 @@
         <span class="duration">20 分鐘</span>
       </div>
       <div class="learning-goal"><strong>🎯 學習目標：</strong>理解 AI Agent 的定義、與傳統 AI 的差異，以及運作機制</div>
-      <div class="video-container">
-        <iframe src="https://www.youtube.com/embed/4L1Gqbd9otk?start=0" allowfullscreen></iframe>
-      </div>
       <table class="lesson-table">
-        <tr><td><a class="time-link" href="https://www.youtube.com/watch?v=4L1Gqbd9otk&t=0s" target="_blank">00:00:00</a></td><td class="title-cell">課程目標與學習方式</td></tr>
-        <tr><td><a class="time-link" href="https://www.youtube.com/watch?v=4L1Gqbd9otk&t=111s" target="_blank">00:01:51</a></td><td class="title-cell">AI Agent 的定義與重要性</td></tr>
-        <tr><td><a class="time-link" href="https://www.youtube.com/watch?v=4L1Gqbd9otk&t=540s" target="_blank">00:09:00</a></td><td class="title-cell">Agent 與傳統 AI 的差異</td></tr>
-        <tr><td><a class="time-link" href="https://www.youtube.com/watch?v=4L1Gqbd9otk&t=825s" target="_blank">00:13:45</a></td><td class="title-cell">Agent 的運作機制</td></tr>
+        <tr><td><a class="time-link" href="javascript:void(0)" onclick="jumpTo(0)">00:00:00</a></td><td class="title-cell">課程目標與學習方式</td></tr>
+        <tr><td><a class="time-link" href="javascript:void(0)" onclick="jumpTo(111)">00:01:51</a></td><td class="title-cell">AI Agent 的定義與重要性</td></tr>
+        <tr><td><a class="time-link" href="javascript:void(0)" onclick="jumpTo(540)">00:09:00</a></td><td class="title-cell">Agent 與傳統 AI 的差異</td></tr>
+        <tr><td><a class="time-link" href="javascript:void(0)" onclick="jumpTo(825)">00:13:45</a></td><td class="title-cell">Agent 的運作機制</td></tr>
       </table>
     </div>
 
@@ -777,10 +831,10 @@
       </div>
       <div class="learning-goal"><strong>🎯 學習目標：</strong>掌握 Agent 的感知、推理、協作能力，以及真實案例分析</div>
       <table class="lesson-table">
-        <tr><td><a class="time-link" href="https://www.youtube.com/watch?v=4L1Gqbd9otk&t=1200s" target="_blank">00:20:00</a></td><td class="title-cell">Agent 的感知與推理能力</td></tr>
-        <tr><td><a class="time-link" href="https://www.youtube.com/watch?v=4L1Gqbd9otk&t=1800s" target="_blank">00:30:00</a></td><td class="title-cell">Agent 在工作場景的應用</td></tr>
-        <tr><td><a class="time-link" href="https://www.youtube.com/watch?v=4L1Gqbd9otk&t=2400s" target="_blank">00:40:00</a></td><td class="title-cell">Multi-Agent 系統與協作</td></tr>
-        <tr><td><a class="time-link" href="https://www.youtube.com/watch?v=4L1Gqbd9otk&t=3000s" target="_blank">00:50:00</a></td><td class="title-cell">實際案例分析</td></tr>
+        <tr><td><a class="time-link" href="javascript:void(0)" onclick="jumpTo(1200)">00:20:00</a></td><td class="title-cell">Agent 的感知與推理能力</td></tr>
+        <tr><td><a class="time-link" href="javascript:void(0)" onclick="jumpTo(1800)">00:30:00</a></td><td class="title-cell">Agent 在工作場景的應用</td></tr>
+        <tr><td><a class="time-link" href="javascript:void(0)" onclick="jumpTo(2400)">00:40:00</a></td><td class="title-cell">Multi-Agent 系統與協作</td></tr>
+        <tr><td><a class="time-link" href="javascript:void(0)" onclick="jumpTo(3000)">00:50:00</a></td><td class="title-cell">實際案例分析</td></tr>
       </table>
 
       <!-- Example 1 -->
@@ -841,10 +895,10 @@
       </div>
       <div class="learning-goal"><strong>🎯 學習目標：</strong>認識 Gemini、NotebookLM、Claude 等工具，學會選擇最適合的平台</div>
       <table class="lesson-table">
-        <tr><td><a class="time-link" href="https://www.youtube.com/watch?v=4L1Gqbd9otk&t=3600s" target="_blank">01:00:00</a></td><td class="title-cell">Gemini AI Studio 介紹</td></tr>
-        <tr><td><a class="time-link" href="https://www.youtube.com/watch?v=4L1Gqbd9otk&t=4200s" target="_blank">01:10:00</a></td><td class="title-cell">NotebookLM 功能與應用</td></tr>
-        <tr><td><a class="time-link" href="https://www.youtube.com/watch?v=4L1Gqbd9otk&t=4800s" target="_blank">01:20:00</a></td><td class="title-cell">Claude 與其他平台比較</td></tr>
-        <tr><td><a class="time-link" href="https://www.youtube.com/watch?v=4L1Gqbd9otk&t=5400s" target="_blank">01:30:00</a></td><td class="title-cell">工具選擇策略</td></tr>
+        <tr><td><a class="time-link" href="javascript:void(0)" onclick="jumpTo(3600)">01:00:00</a></td><td class="title-cell">Gemini AI Studio 介紹</td></tr>
+        <tr><td><a class="time-link" href="javascript:void(0)" onclick="jumpTo(4200)">01:10:00</a></td><td class="title-cell">NotebookLM 功能與應用</td></tr>
+        <tr><td><a class="time-link" href="javascript:void(0)" onclick="jumpTo(4800)">01:20:00</a></td><td class="title-cell">Claude 與其他平台比較</td></tr>
+        <tr><td><a class="time-link" href="javascript:void(0)" onclick="jumpTo(5400)">01:30:00</a></td><td class="title-cell">工具選擇策略</td></tr>
       </table>
 
       <!-- Example 3 -->
@@ -924,10 +978,10 @@
       </div>
       <div class="learning-goal"><strong>🎯 學習目標：</strong>掌握 Prompt 設計原則、Agent 目標設定、記憶系統與優化技巧</div>
       <table class="lesson-table">
-        <tr><td><a class="time-link" href="https://www.youtube.com/watch?v=4L1Gqbd9otk&t=6000s" target="_blank">01:40:00</a></td><td class="title-cell">Prompt 設計原則</td></tr>
-        <tr><td><a class="time-link" href="https://www.youtube.com/watch?v=4L1Gqbd9otk&t=6600s" target="_blank">01:50:00</a></td><td class="title-cell">Agent 目標設定與任務分解</td></tr>
-        <tr><td><a class="time-link" href="https://www.youtube.com/watch?v=4L1Gqbd9otk&t=7200s" target="_blank">02:00:00</a></td><td class="title-cell">記憶系統與上下文管理</td></tr>
-        <tr><td><a class="time-link" href="https://www.youtube.com/watch?v=4L1Gqbd9otk&t=7800s" target="_blank">02:10:00</a></td><td class="title-cell">錯誤處理與優化技巧</td></tr>
+        <tr><td><a class="time-link" href="javascript:void(0)" onclick="jumpTo(6000)">01:40:00</a></td><td class="title-cell">Prompt 設計原則</td></tr>
+        <tr><td><a class="time-link" href="javascript:void(0)" onclick="jumpTo(6600)">01:50:00</a></td><td class="title-cell">Agent 目標設定與任務分解</td></tr>
+        <tr><td><a class="time-link" href="javascript:void(0)" onclick="jumpTo(7200)">02:00:00</a></td><td class="title-cell">記憶系統與上下文管理</td></tr>
+        <tr><td><a class="time-link" href="javascript:void(0)" onclick="jumpTo(7800)">02:10:00</a></td><td class="title-cell">錯誤處理與優化技巧</td></tr>
       </table>
 
       <!-- Example 6 -->
@@ -963,10 +1017,10 @@
       </div>
       <div class="learning-goal"><strong>🎯 學習目標：</strong>動手建立你的第一個 AI Agent，從環境設定到測試部署</div>
       <table class="lesson-table">
-        <tr><td><a class="time-link" href="https://www.youtube.com/watch?v=4L1Gqbd9otk&t=8400s" target="_blank">02:20:00</a></td><td class="title-cell">環境設定與準備工作</td></tr>
-        <tr><td><a class="time-link" href="https://www.youtube.com/watch?v=4L1Gqbd9otk&t=9000s" target="_blank">02:30:00</a></td><td class="title-cell">使用 Gemini AI Studio 建立 Agent</td></tr>
-        <tr><td><a class="time-link" href="https://www.youtube.com/watch?v=4L1Gqbd9otk&t=9600s" target="_blank">02:40:00</a></td><td class="title-cell">Agent 測試與調整</td></tr>
-        <tr><td><a class="time-link" href="https://www.youtube.com/watch?v=4L1Gqbd9otk&t=10200s" target="_blank">02:50:00</a></td><td class="title-cell">部署與分享</td></tr>
+        <tr><td><a class="time-link" href="javascript:void(0)" onclick="jumpTo(8400)">02:20:00</a></td><td class="title-cell">環境設定與準備工作</td></tr>
+        <tr><td><a class="time-link" href="javascript:void(0)" onclick="jumpTo(9000)">02:30:00</a></td><td class="title-cell">使用 Gemini AI Studio 建立 Agent</td></tr>
+        <tr><td><a class="time-link" href="javascript:void(0)" onclick="jumpTo(9600)">02:40:00</a></td><td class="title-cell">Agent 測試與調整</td></tr>
+        <tr><td><a class="time-link" href="javascript:void(0)" onclick="jumpTo(10200)">02:50:00</a></td><td class="title-cell">部署與分享</td></tr>
       </table>
     </div>
 
@@ -979,9 +1033,9 @@
       </div>
       <div class="learning-goal"><strong>🎯 學習目標：</strong>將 AI Agent 應用於文件處理、數據分析與客服自動化</div>
       <table class="lesson-table">
-        <tr><td><a class="time-link" href="https://www.youtube.com/watch?v=4L1Gqbd9otk&t=10800s" target="_blank">03:00:00</a></td><td class="title-cell">文件處理自動化</td></tr>
-        <tr><td><a class="time-link" href="https://www.youtube.com/watch?v=4L1Gqbd9otk&t=11400s" target="_blank">03:10:00</a></td><td class="title-cell">數據分析與報告生成</td></tr>
-        <tr><td><a class="time-link" href="https://www.youtube.com/watch?v=4L1Gqbd9otk&t=11700s" target="_blank">03:15:00</a></td><td class="title-cell">客服與溝通自動化</td></tr>
+        <tr><td><a class="time-link" href="javascript:void(0)" onclick="jumpTo(10800)">03:00:00</a></td><td class="title-cell">文件處理自動化</td></tr>
+        <tr><td><a class="time-link" href="javascript:void(0)" onclick="jumpTo(11400)">03:10:00</a></td><td class="title-cell">數據分析與報告生成</td></tr>
+        <tr><td><a class="time-link" href="javascript:void(0)" onclick="jumpTo(11700)">03:15:00</a></td><td class="title-cell">客服與溝通自動化</td></tr>
       </table>
 
       <!-- Example 7 -->
@@ -1057,9 +1111,9 @@ function callOpenAI(prompt) {
       </div>
       <div class="learning-goal"><strong>🎯 學習目標：</strong>學會基礎 API 概念、Google Apps Script 應用與第三方服務整合</div>
       <table class="lesson-table">
-        <tr><td><a class="time-link" href="https://www.youtube.com/watch?v=4L1Gqbd9otk&t=11800s" target="_blank">03:16:40</a></td><td class="title-cell">API 基礎概念</td></tr>
-        <tr><td><a class="time-link" href="https://www.youtube.com/watch?v=4L1Gqbd9otk&t=11900s" target="_blank">03:18:20</a></td><td class="title-cell">Google Apps Script 應用</td></tr>
-        <tr><td><a class="time-link" href="https://www.youtube.com/watch?v=4L1Gqbd9otk&t=12000s" target="_blank">03:20:00</a></td><td class="title-cell">第三方服務整合</td></tr>
+        <tr><td><a class="time-link" href="javascript:void(0)" onclick="jumpTo(11800)">03:16:40</a></td><td class="title-cell">API 基礎概念</td></tr>
+        <tr><td><a class="time-link" href="javascript:void(0)" onclick="jumpTo(11900)">03:18:20</a></td><td class="title-cell">Google Apps Script 應用</td></tr>
+        <tr><td><a class="time-link" href="javascript:void(0)" onclick="jumpTo(12000)">03:20:00</a></td><td class="title-cell">第三方服務整合</td></tr>
       </table>
 
       <!-- Example 8 -->
@@ -1104,9 +1158,9 @@ function callOpenAI(prompt) {
       </div>
       <div class="learning-goal"><strong>🎯 學習目標：</strong>理解 Token 計費機制、成本優化策略與安全性考量</div>
       <table class="lesson-table">
-        <tr><td><a class="time-link" href="https://www.youtube.com/watch?v=4L1Gqbd9otk&t=12200s" target="_blank">03:23:20</a></td><td class="title-cell">Token 計費機制說明</td></tr>
-        <tr><td><a class="time-link" href="https://www.youtube.com/watch?v=4L1Gqbd9otk&t=12400s" target="_blank">03:26:40</a></td><td class="title-cell">成本優化策略</td></tr>
-        <tr><td><a class="time-link" href="https://www.youtube.com/watch?v=4L1Gqbd9otk&t=12500s" target="_blank">03:28:20</a></td><td class="title-cell">安全性與隱私考量</td></tr>
+        <tr><td><a class="time-link" href="javascript:void(0)" onclick="jumpTo(12200)">03:23:20</a></td><td class="title-cell">Token 計費機制說明</td></tr>
+        <tr><td><a class="time-link" href="javascript:void(0)" onclick="jumpTo(12400)">03:26:40</a></td><td class="title-cell">成本優化策略</td></tr>
+        <tr><td><a class="time-link" href="javascript:void(0)" onclick="jumpTo(12500)">03:28:20</a></td><td class="title-cell">安全性與隱私考量</td></tr>
       </table>
     </div>
 
@@ -1118,9 +1172,9 @@ function callOpenAI(prompt) {
         <span class="duration">5 分鐘</span>
       </div>
       <table class="lesson-table">
-        <tr><td><a class="time-link" href="https://www.youtube.com/watch?v=4L1Gqbd9otk&t=12550s" target="_blank">03:29:10</a></td><td class="title-cell">學員問題解答</td></tr>
-        <tr><td><a class="time-link" href="https://www.youtube.com/watch?v=4L1Gqbd9otk&t=12610s" target="_blank">03:30:10</a></td><td class="title-cell">學習資源與後續支援</td></tr>
-        <tr><td><a class="time-link" href="https://www.youtube.com/watch?v=4L1Gqbd9otk&t=12640s" target="_blank">03:30:40</a></td><td class="title-cell">課程回顧與展望</td></tr>
+        <tr><td><a class="time-link" href="javascript:void(0)" onclick="jumpTo(12550)">03:29:10</a></td><td class="title-cell">學員問題解答</td></tr>
+        <tr><td><a class="time-link" href="javascript:void(0)" onclick="jumpTo(12610)">03:30:10</a></td><td class="title-cell">學習資源與後續支援</td></tr>
+        <tr><td><a class="time-link" href="javascript:void(0)" onclick="jumpTo(12640)">03:30:40</a></td><td class="title-cell">課程回顧與展望</td></tr>
       </table>
     </div>
 
@@ -1175,6 +1229,30 @@ function checkPassword() {
 if (sessionStorage.getItem('classroom_unlocked') === 'true') {
   document.getElementById('passwordGate').style.display = 'none';
   document.getElementById('classroom').classList.add('unlocked');
+}
+
+// ===== VIDEO PLAYER =====
+const VIDEO_ID = '4L1Gqbd9otk';
+
+function jumpTo(seconds) {
+  const player = document.getElementById('videoPlayer');
+  player.src = `https://www.youtube.com/embed/${VIDEO_ID}?start=${seconds}&autoplay=1&enablejsapi=1`;
+  
+  // Scroll to player
+  document.getElementById('mainPlayerWrap').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  
+  // Update now playing text
+  const clickedLink = event.currentTarget;
+  const row = clickedLink.closest('tr');
+  const titleCell = row.querySelector('.title-cell');
+  const chapter = row.closest('.chapter-section');
+  const chapterNum = chapter.querySelector('.num').textContent;
+  
+  document.getElementById('playerNow').textContent = `▶ 第 ${chapterNum} 章 — ${titleCell.textContent}`;
+  
+  // Highlight active row
+  document.querySelectorAll('.lesson-table tr').forEach(r => r.classList.remove('active-lesson'));
+  row.classList.add('active-lesson');
 }
 
 // ===== SIDEBAR NAVIGATION =====
