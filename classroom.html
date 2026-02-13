@@ -213,18 +213,16 @@
   }
 
   /* ===== MAIN VIDEO PLAYER ===== */
-  .main-player-wrap {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 0 24px 24px;
-  }
-
   .main-player {
     background: linear-gradient(160deg, #16213e, #0f3460);
     border: 1px solid rgba(255,255,255,0.08);
     border-radius: 16px;
     overflow: hidden;
     box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+    margin-bottom: 32px;
+    position: sticky;
+    top: 68px;
+    z-index: 50;
   }
 
   .main-player .video-container {
@@ -234,7 +232,7 @@
   }
 
   .player-info {
-    padding: 14px 20px;
+    padding: 12px 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -242,7 +240,7 @@
   }
 
   .player-now {
-    font-size: 14px;
+    font-size: 13px;
     color: var(--green);
     font-weight: 500;
   }
@@ -755,18 +753,6 @@
   </div>
 </div>
 
-<!-- MAIN VIDEO PLAYER -->
-<div class="main-player-wrap" id="mainPlayerWrap">
-  <div class="main-player" id="mainPlayer">
-    <div class="video-container">
-      <iframe id="videoPlayer" src="https://www.youtube.com/embed/4L1Gqbd9otk?start=0&autoplay=0&enablejsapi=1" allowfullscreen allow="autoplay"></iframe>
-    </div>
-    <div class="player-info">
-      <span class="player-now" id="playerNow">▶ 第 01 章 — 課程目標與學習方式</span>
-    </div>
-  </div>
-</div>
-
 <!-- LAYOUT -->
 <div class="course-layout">
 
@@ -799,6 +785,16 @@
 
   <!-- MAIN CONTENT -->
   <main class="main-content">
+
+    <!-- VIDEO PLAYER (inside main content) -->
+    <div class="main-player" id="mainPlayer">
+      <div class="video-container">
+        <iframe id="videoPlayer" src="https://www.youtube.com/embed/4L1Gqbd9otk?start=0&autoplay=0&enablejsapi=1" allowfullscreen allow="autoplay"></iframe>
+      </div>
+      <div class="player-info">
+        <span class="player-now" id="playerNow">▶ 第 01 章 — 課程目標與學習方式</span>
+      </div>
+    </div>
 
     <!-- NOTICE -->
     <div class="notice-bar">
@@ -1239,7 +1235,7 @@ function jumpTo(seconds) {
   player.src = `https://www.youtube.com/embed/${VIDEO_ID}?start=${seconds}&autoplay=1&enablejsapi=1`;
   
   // Scroll to player
-  document.getElementById('mainPlayerWrap').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  document.getElementById('mainPlayer').scrollIntoView({ behavior: 'smooth', block: 'start' });
   
   // Update now playing text
   const clickedLink = event.currentTarget;
