@@ -207,12 +207,61 @@
     box-shadow: var(--shadow);
     aspect-ratio: 16/9;
     background: #000;
+    cursor: pointer;
   }
 
-  .video-wrapper iframe {
+  .video-wrapper img {
     width: 100%;
     height: 100%;
-    border: none;
+    object-fit: cover;
+    transition: transform 0.3s, filter 0.3s;
+  }
+
+  .video-wrapper:hover img {
+    transform: scale(1.03);
+    filter: brightness(0.7);
+  }
+
+  .video-play-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.3);
+    transition: background 0.3s;
+  }
+
+  .video-wrapper:hover .video-play-overlay {
+    background: rgba(0,0,0,0.5);
+  }
+
+  .play-btn-circle {
+    width: 72px;
+    height: 72px;
+    background: rgba(233, 69, 96, 0.9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    margin-bottom: 12px;
+    transition: transform 0.3s;
+  }
+
+  .video-wrapper:hover .play-btn-circle {
+    transform: scale(1.1);
+  }
+
+  .play-text {
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.5);
   }
 
   .video-label {
@@ -746,10 +795,14 @@
     </div>
   </div>
   <div class="hero-right">
-    <div class="video-wrapper">
-      <iframe src="https://www.youtube.com/embed/4L1Gqbd9otk?start=0&end=120" allowfullscreen></iframe>
-    </div>
-    <div class="video-label">🎬 免費試看前 2 分鐘課程內容</div>
+    <a href="https://portaly.cc/aied-lab" target="_blank" class="video-wrapper" style="display:block;text-decoration:none;">
+      <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&q=80" alt="AI Agent 實戰課程預覽">
+      <div class="video-play-overlay">
+        <div class="play-btn-circle">▶</div>
+        <span class="play-text">購買後即可觀看完整 3.5 小時課程</span>
+      </div>
+    </a>
+    <div class="video-label">🎓 含 9 大章節 ｜ 8 個實戰範例 ｜ 完整 Prompt & 程式碼</div>
   </div>
 </section>
 
