@@ -789,7 +789,7 @@
     <!-- VIDEO PLAYER (inside main content) -->
     <div class="main-player" id="mainPlayer">
       <div class="video-container">
-        <iframe id="videoPlayer" src="https://www.youtube.com/embed/4L1Gqbd9otk?start=0&autoplay=0&enablejsapi=1" allowfullscreen allow="autoplay"></iframe>
+        <iframe id="videoPlayer" src="https://www.loom.com/embed/93a5fa65c7de43cdb2ff5a135027836c?hideEmbedTopBar=true" allowfullscreen allow="autoplay"></iframe>
       </div>
       <div class="player-info">
         <span class="player-now" id="playerNow">▶ 第 01 章 — 課程目標與學習方式</span>
@@ -1228,11 +1228,11 @@ if (sessionStorage.getItem('classroom_unlocked') === 'true') {
 }
 
 // ===== VIDEO PLAYER =====
-const VIDEO_ID = '4L1Gqbd9otk';
+const VIDEO_ID = '93a5fa65c7de43cdb2ff5a135027836c';
 
 function jumpTo(seconds) {
   const player = document.getElementById('videoPlayer');
-  player.src = `https://www.youtube.com/embed/${VIDEO_ID}?start=${seconds}&autoplay=1&enablejsapi=1`;
+  player.src = `https://www.loom.com/embed/${VIDEO_ID}?t=${seconds}s&autoplay=1&hideEmbedTopBar=true`;
   
   // Scroll to player
   document.getElementById('mainPlayer').scrollIntoView({ behavior: 'smooth', block: 'start' });
